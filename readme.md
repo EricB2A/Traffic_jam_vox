@@ -1,9 +1,9 @@
 # JAV1 - TrafficJam
 ## About the project
 The game is based on the well known TrafficJam (see picture below) including a vocabulary learning. The purpose of the game is to "lean and play" simultaneously. The project might be included with other games developped by colleagues.
-![alt text](http://www.thinkfun.com/wp-content/uploads/1996/09/rush-hour-howtoplay.jpg)
+<img width="200" alt="TrafficJam" src="http://www.thinkfun.com/wp-content/uploads/1996/09/rush-hour-howtoplay.jpg">
 The included vocabulary comes from a web API.
-![alt text](misc/traffic.png)
+<img width="200" alt="TrafficJam and Voc" src="misc/traffic.png">
 
 ## Environment
 ### development environment
