@@ -3,7 +3,7 @@ package ch.cpnv.vox.traffic_jam;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.sun.prism.image.ViewPort;
+
 
 /**
  * Created by Eric.BOUSBAA on 24.05.2017.
@@ -13,7 +13,6 @@ public abstract class GameActivity
 {
     protected OrthographicCamera mCamera;
     protected SpriteBatch mSpriteBatch;
-    protected ViewPort mViewPort;
 
     protected GameActivity(){
         mCamera = new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());

@@ -3,14 +3,8 @@ package ch.cpnv.vox.traffic_jam;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.sun.xml.internal.bind.annotation.OverrideAnnotationOf;
 
-import ch.cpnv.vox.traffic_jam.activities.Welcome;
-import sun.rmi.runtime.Log;
+import ch.cpnv.vox.traffic_jam.activities.Play;
 
 public class TrafficJam extends ApplicationAdapter {
 
@@ -18,7 +12,7 @@ public class TrafficJam extends ApplicationAdapter {
 
 	@Override
 	public void create(){
-		sGameActivityManager.push(new Welcome());
+		sGameActivityManager.push(new Play());
 	}
 
 	@Override
@@ -27,7 +21,6 @@ public class TrafficJam extends ApplicationAdapter {
 		sGameActivityManager.update(Gdx.graphics.getDeltaTime());
 		sGameActivityManager.render();
 	}
-
 
 	@Override
 	public void dispose () {
