@@ -1,6 +1,7 @@
 package ch.cpnv.vox.traffic_jam.activities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -8,7 +9,8 @@ import java.util.Random;
 import ch.cpnv.vox.traffic_jam.GameActivity;
 import ch.cpnv.vox.traffic_jam.models.Word;
 import ch.cpnv.vox.traffic_jam.sprites.Background;
-import ch.cpnv.vox.traffic_jam.sprites.Vehicule;
+import ch.cpnv.vox.traffic_jam.sprites.Car;
+import ch.cpnv.vox.traffic_jam.sprites.Truck;
 
 /**
  * Created by Eric on 27.05.17.
@@ -24,14 +26,15 @@ public class Play extends GameActivity {
 
     private ArrayList<Word> mWords;
 
+    Car mCar = new Car();
+    Truck mTruck = new Truck();
 
     public Play() {
         super();
 
         //mBackground = new Background(); // no need for bg for the moment
-        Vehicule truck = new Vehicule();
-        truck.setX((float) randomNumber(0, (int) GRID_WIDTH));
-        truck.setY((float) randomNumber(0, (int) GRID_HEIGHT));
+        mCar.setX((float) randomNumber(0, (int) GRID_WIDTH));
+        mCar.setY((float) randomNumber(0, (int) GRID_HEIGHT));
 
     }
 
@@ -47,6 +50,11 @@ public class Play extends GameActivity {
 
     @Override
     public void render() {
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // clear the layout
+
+        mSpriteBatch.begin();
+        mCar.draw(mSpriteBatch);
+        mSpriteBatch.end();
 
     }
 

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.sun.org.apache.xpath.internal.SourceTree;
 
 import ch.cpnv.vox.traffic_jam.GameActivity;
+import ch.cpnv.vox.traffic_jam.TrafficJam;
 import ch.cpnv.vox.traffic_jam.providers.GlobalStorage;
 import ch.cpnv.vox.traffic_jam.sprites.Background;
 import ch.cpnv.vox.traffic_jam.sprites.Text;
@@ -27,7 +28,9 @@ public class Welcome extends GameActivity{
     }
     @Override
     protected void handleInput() {
-
+        if(Gdx.input.justTouched()){
+            TrafficJam.sGameActivityManager.push(new Play());
+        }
     }
 
     @Override
