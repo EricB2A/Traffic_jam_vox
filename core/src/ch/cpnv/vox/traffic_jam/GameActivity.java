@@ -12,13 +12,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public abstract class GameActivity
 {
     protected OrthographicCamera mCamera;
-    protected SpriteBatch mSpriteBatch;
+    protected SpriteBatch mSpriteBatch = new SpriteBatch();;
 
     protected GameActivity(){
-        mCamera = new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-        mSpriteBatch = new SpriteBatch();
-        mSpriteBatch.setProjectionMatrix(mCamera.combined);
-        Gdx.gl.glClearColor(0,0,0,0);
+//        mCamera = new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+//        mCamera.position.set(0,0,0);
+//        mSpriteBatch.setProjectionMatrix(mCamera.combined);
+//        Gdx.gl.glClearColor(0, 0, 0, 0);
     }
 
     protected abstract void handleInput();

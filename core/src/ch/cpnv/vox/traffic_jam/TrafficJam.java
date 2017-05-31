@@ -3,8 +3,11 @@ package ch.cpnv.vox.traffic_jam;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-
 import ch.cpnv.vox.traffic_jam.activities.Play;
+import ch.cpnv.vox.traffic_jam.activities.Welcome;
+
+import ch.cpnv.vox.traffic_jam.providers.Fonts;
+
 
 public class TrafficJam extends ApplicationAdapter {
 
@@ -12,7 +15,8 @@ public class TrafficJam extends ApplicationAdapter {
 
 	@Override
 	public void create(){
-		sGameActivityManager.push(new Play());
+		Fonts.load();
+		sGameActivityManager.push(new Welcome());
 	}
 
 	@Override

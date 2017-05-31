@@ -10,12 +10,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Background extends Sprite{
     public Background(){
-        super(new Texture("bg.jpg"));
-
-        //setPosition(0,0);
-        //setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        //setPosition(-Gdx.graphics.getWidth()/2,-Gdx.graphics.getHeight()/2);
-        //setSize(Gdx.graphics.getHeight()/getTexture().getHeight()*getTexture().getWidth(),Gdx.graphics.getHeight());
-
+        super(new Texture("bg2.jpeg"));
+        setPosition(-Gdx.graphics.getWidth()/2,-Gdx.graphics.getHeight()/2);
+        setSize(Gdx.graphics.getHeight()/getTexture().getHeight()*getTexture().getWidth(),Gdx.graphics.getHeight());
     }
 }
