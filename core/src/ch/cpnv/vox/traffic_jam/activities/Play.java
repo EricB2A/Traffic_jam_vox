@@ -18,18 +18,18 @@ import ch.cpnv.vox.traffic_jam.sprites.Grid;
 public class Play extends GameActivity {
 
     /**
-     * Defines the grid offset and its cell's size
-     */
-    public static final int GRID_OFFSET_X = 100;
-    public static final int GRID_OFFSET_Y = 100;
-    public static final int CELL_SIZE = 150;
-
-    /**
      * Numbers of cell in the playable grid
      */
     public static final int GRID_WIDTH = 6;
     public static final int GRID_HEIGHT = 6;
 
+    /**
+     * Defines the grid offset and its cell's size
+     * The grid is centred to the middle of the screen
+     */
+    public static final int CELL_SIZE = 150;
+    public static final int GRID_OFFSET_X = Gdx.graphics.getWidth() / 2 - ((CELL_SIZE * GRID_WIDTH) / 2);
+    public static final int GRID_OFFSET_Y = Gdx.graphics.getHeight() / 2 - ((CELL_SIZE * GRID_HEIGHT) / 2);
 
     /**
      * Objects displayed
@@ -45,7 +45,6 @@ public class Play extends GameActivity {
 
     public Play() {
         super();
-
 
         // defines the emplacement of the playable car
         mCar.setPosX((int) randomNumber(0, (int) GRID_WIDTH));

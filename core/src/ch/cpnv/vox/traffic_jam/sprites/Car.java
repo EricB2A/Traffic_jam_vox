@@ -32,7 +32,6 @@ public class Car extends Sprite{
         }else{
             setSize(height, width);
         }
-
     }
 
     public void setHorizontal(boolean horizontal) {
