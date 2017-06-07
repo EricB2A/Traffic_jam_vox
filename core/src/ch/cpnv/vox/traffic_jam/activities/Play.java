@@ -9,6 +9,7 @@ import java.util.Random;
 
 import ch.cpnv.vox.traffic_jam.GameActivity;
 import ch.cpnv.vox.traffic_jam.sprites.Car;
+import ch.cpnv.vox.traffic_jam.sprites.Cell;
 import ch.cpnv.vox.traffic_jam.sprites.Grid;
 
 /**
@@ -30,13 +31,16 @@ public class Play extends GameActivity {
     public static final int CELL_SIZE = 150;
     public static final int GRID_OFFSET_X = Gdx.graphics.getWidth() / 2 - ((CELL_SIZE * GRID_WIDTH) / 2);
     public static final int GRID_OFFSET_Y = Gdx.graphics.getHeight() / 2 - ((CELL_SIZE * GRID_HEIGHT) / 2);
+    public static final int CELL_OFFSET = 20;
 
+    public static final int VEHICULE_SIZE = CELL_SIZE - CELL_OFFSET;
     /**
      * Objects displayed
      */
     private Car mCar = new Car();
     private ArrayList<Car> mTrucks;
     private Grid mGrid = new Grid();
+    private ArrayList<Cell> mCells = mGrid.getCells();
 
     /**
      * Cursor
@@ -46,7 +50,7 @@ public class Play extends GameActivity {
     public Play() {
         super();
 
-        // defines the emplacement of the playable car
+        // defines the emplacement of apparition of the playable car
         mCar.setPosX((int) randomNumber(0, (int) GRID_WIDTH));
         mCar.setPosY((int) randomNumber(0, (int) GRID_HEIGHT));
 
@@ -68,8 +72,12 @@ public class Play extends GameActivity {
     public void render() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // clear the layout
 
+        // display all the needed elements
         mSpriteBatch.begin();
         mGrid.draw(mSpriteBatch);
+        for (Cell mCell : mCells){
+            mCell.draw(mSpriteBatch);
+        }
         mCar.draw(mSpriteBatch);
         mSpriteBatch.end();
 

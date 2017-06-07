@@ -18,19 +18,17 @@ public class Car extends Sprite{
 
     public Car(){
         super(new Texture("red.jpg"));
-
         init();
     }
 
     private void init(){
 
-        //TODO set size on globals
         float height = 300;
         float width = 100;
-        if (mHorizontal) {
-            setSize(width, height);
+        if (mHorizontal){
+            setSize(Play.VEHICULE_SIZE, Play.VEHICULE_SIZE * 2);
         }else{
-            setSize(height, width);
+            setSize(Play.VEHICULE_SIZE * 2, Play.VEHICULE_SIZE);
         }
     }
 

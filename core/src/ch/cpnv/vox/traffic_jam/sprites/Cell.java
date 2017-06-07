@@ -16,16 +16,16 @@ public class Cell extends Sprite {
 
     public Cell(int width, int height){
         super(new Texture("lightgrey.png"));
-        setPosition(width, height);
+        setSize(width, height);
     }
 
     public void setPosX(int posX) {
         mPosX = posX;
-        setX(Play.GRID_OFFSET_X + (posX * Play.CELL_SIZE));
+        setX(posX);
     }
 
     public void setPosY(int posY) {
         mPosY = posY;
-        setY(Play.GRID_OFFSET_Y + (posY * Play.CELL_SIZE));
+        setY(posY);
     }
 }
