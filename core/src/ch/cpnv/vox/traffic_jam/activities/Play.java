@@ -3,6 +3,7 @@ package ch.cpnv.vox.traffic_jam.activities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -50,17 +51,51 @@ public class Play extends GameActivity {
     public Play() {
         super();
 
-        // defines the emplacement of apparition of the playable car
-        mCar.setPosX((int) randomNumber(0, (int) GRID_WIDTH));
-        mCar.setPosY((int) randomNumber(0, (int) GRID_HEIGHT));
-
+        // define the emplacement of apparition of the playable car
+        // which is randomly placed on the grid
+        int randomX = (int) randomNumber(0, GRID_WIDTH);
+        int randomY = (int) randomNumber(0, GRID_HEIGHT);
+        mCar.setPosX(GRID_OFFSET_X + (randomX * CELL_SIZE));
+        mCar.setPosY(GRID_OFFSET_Y + (randomY * CELL_SIZE));
     }
 
     @Override
     protected void handleInput() {
         // make the car element follow the cursor
         mCursor = new Vector3(Gdx.input.getX(), (Gdx.graphics.getHeight()-Gdx.input.getY()), 0);
-        mCar.setPosition(mCursor.x - (mCar.getWidth() / 2), mCursor.y - (mCar.getHeight() / 2));
+        System.out.println(mCursor);
+        if(mCar.mHorizontal){
+            System.out.println("closer is ");
+            System.out.println(getCloserCell(mCursor.x));
+            mCar.setX(getCloserCell(mCursor.x));
+//            mCar.setX(mCursor.x - (mCar.getWidth() / 2));
+        }else{
+            mCar.setY(mCursor.y - (mCar.getWidth() / 2));
+        }
+    }
+
+    public float getCloserCell(float cursorPos) {
+        float distance = 10000;
+        float closer = 10000;
+
+        for(int x=0 ; x < Play.GRID_WIDTH ; x++){
+            float cellPos = GRID_OFFSET_X + (GRID_WIDTH * x);
+            float cdistance;
+
+            if(cursorPos > cellPos){
+                cdistance = Math.abs(cursorPos - cellPos);
+            }else{
+                cdistance = Math.abs(cellPos - cursorPos);
+
+            }
+
+            if(cdistance < distance){
+                distance = cdistance;
+                closer = cellPos;
+            }
+        }
+        System.out.println(distance);
+        return closer;
     }
 
     @Override

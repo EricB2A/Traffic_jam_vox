@@ -11,7 +11,7 @@ import ch.cpnv.vox.traffic_jam.activities.Play;
 
 public class Car extends Sprite{
 
-    private boolean mHorizontal;
+    public boolean mHorizontal = true;
     private int mPosX;
     private int mPosY;
 
@@ -26,9 +26,9 @@ public class Car extends Sprite{
         float height = 300;
         float width = 100;
         if (mHorizontal){
-            setSize(Play.VEHICULE_SIZE, Play.VEHICULE_SIZE * 2);
-        }else{
             setSize(Play.VEHICULE_SIZE * 2, Play.VEHICULE_SIZE);
+        }else{
+            setSize(Play.VEHICULE_SIZE, Play.VEHICULE_SIZE * 2);
         }
     }
 
@@ -38,12 +38,11 @@ public class Car extends Sprite{
 
     public void setPosX(int posX) {
         mPosX = posX;
-        setX(Play.GRID_OFFSET_X + (posX * Play.CELL_SIZE));
-
+        setX(posX);
     }
 
     public void setPosY(int posY) {
         mPosY = posY;
-        setY(Play.GRID_OFFSET_Y + (posY * Play.CELL_SIZE));
+        setY(posY);
     }
 }
