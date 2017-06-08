@@ -34,11 +34,11 @@ public class Play extends GameActivity {
     public static final int GRID_OFFSET_Y = Gdx.graphics.getHeight() / 2 - ((CELL_SIZE * GRID_HEIGHT) / 2);
     public static final int CELL_OFFSET = 20;
 
-    public static final int VEHICULE_SIZE = CELL_SIZE - CELL_OFFSET;
+    public static final int VEHICULE_SIZE = CELL_SIZE ;
     /**
      * Objects displayed
      */
-    private Car mCar = new Car();
+    private Car mCar = new Car(3);
     private ArrayList<Car> mTrucks;
     private Grid mGrid = new Grid();
     private ArrayList<Cell> mCells = mGrid.getCells();
@@ -50,52 +50,48 @@ public class Play extends GameActivity {
 
     public Play() {
         super();
-
         // define the emplacement of apparition of the playable car
         // which is randomly placed on the grid
         int randomX = (int) randomNumber(0, GRID_WIDTH);
         int randomY = (int) randomNumber(0, GRID_HEIGHT);
-        mCar.setPosX(GRID_OFFSET_X + (randomX * CELL_SIZE));
-        mCar.setPosY(GRID_OFFSET_Y + (randomY * CELL_SIZE));
+        mCar.setPosX(randomX);
+        mCar.setPosY(randomY);
     }
 
     @Override
     protected void handleInput() {
         // make the car element follow the cursor
         mCursor = new Vector3(Gdx.input.getX(), (Gdx.graphics.getHeight()-Gdx.input.getY()), 0);
-        System.out.println(mCursor);
         if(mCar.mHorizontal){
-            System.out.println("closer is ");
-            System.out.println(getCloserCell(mCursor.x));
-            mCar.setX(getCloserCell(mCursor.x));
-//            mCar.setX(mCursor.x - (mCar.getWidth() / 2));
-        }else{
-            mCar.setY(mCursor.y - (mCar.getWidth() / 2));
+            mCar.setPosX((int) getCellCursorIsInOnX(mCursor.x));
+//            if(doesNotExceedBorderOnX(mCursor.x)){
+//
+//            }
         }
     }
 
-    public float getCloserCell(float cursorPos) {
-        float distance = 10000;
-        float closer = 10000;
 
-        for(int x=0 ; x < Play.GRID_WIDTH ; x++){
-            float cellPos = GRID_OFFSET_X + (GRID_WIDTH * x);
-            float cdistance;
-
-            if(cursorPos > cellPos){
-                cdistance = Math.abs(cursorPos - cellPos);
-            }else{
-                cdistance = Math.abs(cellPos - cursorPos);
-
-            }
-
-            if(cdistance < distance){
-                distance = cdistance;
-                closer = cellPos;
+    private float getCellCursorIsInOnX(float cursorPosOnX){
+        for(int x = 0; x < Play.GRID_WIDTH ; x++){
+            float cellPos = GRID_OFFSET_X + (CELL_SIZE * x);
+            if(cursorPosOnX > cellPos && cursorPosOnX < (cellPos +  CELL_SIZE)){
+                return x;
             }
         }
-        System.out.println(distance);
-        return closer;
+
+        // if not found...
+        return 0
+    }
+
+    private boolean doesNotExceedBorderOnX(float cursorX){
+        if(cursorX < GRID_OFFSET_X){
+            return false;
+        }
+        else if ((cursorX + mCar.getWidth()) > (GRID_OFFSET_X + (CELL_SIZE * GRID_WIDTH))){
+            return false;
+        }
+
+        return true;
     }
 
     @Override

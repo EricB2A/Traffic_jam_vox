@@ -9,15 +9,18 @@ import ch.cpnv.vox.traffic_jam.activities.Play;
  * Created by Eric.BOUSBAA on 31.05.2017.
  */
 
+
 public class Car extends Sprite{
 
     public boolean mHorizontal = true;
+    // grid coordinates, not pixels
     private int mPosX;
     private int mPosY;
+    private int mLength;
 
-
-    public Car(){
+    public Car(int length){
         super(new Texture("red.jpg"));
+        this.mLength = length;
         init();
     }
 
@@ -26,9 +29,9 @@ public class Car extends Sprite{
         float height = 300;
         float width = 100;
         if (mHorizontal){
-            setSize(Play.VEHICULE_SIZE * 2, Play.VEHICULE_SIZE);
+            setSize(Play.VEHICULE_SIZE * this.mLength, Play.VEHICULE_SIZE - Play.CELL_OFFSET);
         }else{
-            setSize(Play.VEHICULE_SIZE, Play.VEHICULE_SIZE * 2);
+            setSize(Play.VEHICULE_SIZE - Play.CELL_OFFSET, Play.VEHICULE_SIZE * this.mLength);
         }
     }
 
@@ -37,12 +40,12 @@ public class Car extends Sprite{
     }
 
     public void setPosX(int posX) {
-        mPosX = posX;
-        setX(posX);
+
+        setX(Play.GRID_OFFSET_X + (posX * Play.CELL_SIZE));
     }
 
     public void setPosY(int posY) {
-        mPosY = posY;
-        setY(posY);
+        setY(Play.GRID_OFFSET_Y +
+                (posY * Play.CELL_SIZE));
     }
 }
