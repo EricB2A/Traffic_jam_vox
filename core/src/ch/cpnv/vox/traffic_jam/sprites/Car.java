@@ -12,40 +12,53 @@ import ch.cpnv.vox.traffic_jam.activities.Play;
 
 public class Car extends Sprite{
 
-    public boolean mHorizontal = true;
+
+
     // grid coordinates, not pixels
     private int mPosX;
     private int mPosY;
     private int mLength;
 
-    public Car(int length){
+    // is it the main car aka the red car
+    private boolean mPlayer = false;
+
+    // is it displayed horizontally or vertically
+    public boolean mHorizontal = true;
+
+    public Car(int length, boolean horizontal ,boolean player){
         super(new Texture("red.jpg"));
+        this.mLength = length;
+        this.mHorizontal = horizontal;
+        init();
+        if(player){
+            this.mPlayer = true;
+        }
+    }
+
+    public Car(int length, boolean horizontal){
+        super(new Texture("truck.jpg"));
+        this.mHorizontal = horizontal;
         this.mLength = length;
         init();
     }
 
     private void init(){
-
-        float height = 300;
-        float width = 100;
-        if (mHorizontal){
-            setSize(Play.VEHICULE_SIZE * this.mLength, Play.VEHICULE_SIZE - Play.CELL_OFFSET);
+        if (this.mHorizontal){
+            setSize((Play.VEHICULE_SIZE * this.mLength) - Play.CELL_OFFSET, Play.VEHICULE_SIZE - Play.CELL_OFFSET);
         }else{
-            setSize(Play.VEHICULE_SIZE - Play.CELL_OFFSET, Play.VEHICULE_SIZE * this.mLength);
+            setSize((Play.VEHICULE_SIZE - Play.CELL_OFFSET), (Play.VEHICULE_SIZE * this.mLength) - Play.CELL_OFFSET);
         }
     }
 
-    public void setHorizontal(boolean horizontal) {
-        this.mHorizontal = horizontal;
-    }
-
     public void setPosX(int posX) {
-
         setX(Play.GRID_OFFSET_X + (posX * Play.CELL_SIZE));
     }
 
     public void setPosY(int posY) {
-        setY(Play.GRID_OFFSET_Y +
-                (posY * Play.CELL_SIZE));
+        setY(Play.GRID_OFFSET_Y + (posY * Play.CELL_SIZE));
+    }
+
+    public int getLength(){
+        return this.mLength;
     }
 }

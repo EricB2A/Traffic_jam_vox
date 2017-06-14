@@ -35,18 +35,19 @@ public class Play extends GameActivity {
     public static final int CELL_OFFSET = 20;
 
     public static final int VEHICULE_SIZE = CELL_SIZE ;
+
     /**
      * Objects displayed
      */
-    private Car mCar = new Car(3);
-    private ArrayList<Car> mTrucks;
+    private Car mCar = new Car(3, true, true);
+    private ArrayList<Car> mTrucks = new ArrayList<Car>();
     private Grid mGrid = new Grid();
     private ArrayList<Cell> mCells = mGrid.getCells();
 
     /**
      * Cursor
      */
-    Vector3 mCursor;
+    private Vector3 mCursor;
 
     public Play() {
         super();
@@ -56,42 +57,68 @@ public class Play extends GameActivity {
         int randomY = (int) randomNumber(0, GRID_HEIGHT);
         mCar.setPosX(randomX);
         mCar.setPosY(randomY);
+
+        // creates X trucks as obstacle
+        for (int x : new int[]{1, 2, 3}){
+            // set a new car with a random length (between 1 to 3)
+            // and random horizontal/vertical properties
+            Car obstacle = new Car((int) randomNumber(2,4), (int) randomNumber(1,2) % 2 == 0);
+
+            //todo is there something here?
+
+            // randomly defines it's position
+            obstacle.setPosX((int) randomNumber(0, GRID_WIDTH));
+            obstacle.setPosY((int) randomNumber(0, GRID_HEIGHT));
+
+            mTrucks.add(obstacle);
+        }
     }
 
     @Override
     protected void handleInput() {
         // make the car element follow the cursor
         mCursor = new Vector3(Gdx.input.getX(), (Gdx.graphics.getHeight()-Gdx.input.getY()), 0);
+//        Car selectedVehicule = getSelectedVehicule();
         if(mCar.mHorizontal){
-            mCar.setPosX((int) getCellCursorIsInOnX(mCursor.x));
-//            if(doesNotExceedBorderOnX(mCursor.x)){
-//
-//            }
+            // assert that the moving car won't go out of the playing grid
+            if(doesNotExceedBorder((int) getCellCursorIsInOnX(mCursor.x),(int) getCellCursorIsInOnY(mCursor.y), mCar)){
+                // movement 'jump' from cell to cell and is not following the cursor after each pixel
+                mCar.setPosX((int) getCellCursorIsInOnX(mCursor.x));
+            }
         }
     }
 
-
     private float getCellCursorIsInOnX(float cursorPosOnX){
-        for(int x = 0; x < Play.GRID_WIDTH ; x++){
+        for(int x = 0 ; x < Play.GRID_WIDTH ; x++){
             float cellPos = GRID_OFFSET_X + (CELL_SIZE * x);
             if(cursorPosOnX > cellPos && cursorPosOnX < (cellPos +  CELL_SIZE)){
                 return x;
             }
         }
-
         // if not found...
-        return 0
+        return 0;
     }
 
-    private boolean doesNotExceedBorderOnX(float cursorX){
-        if(cursorX < GRID_OFFSET_X){
-            return false;
+    private float getCellCursorIsInOnY(float cursorPosOnY){
+        //todo could merge getCellPosOnX and getCellPosOnY
+        for(int y = 0; y < Play.GRID_HEIGHT ; y++){
+            float cellPos = GRID_OFFSET_Y + (CELL_SIZE * y);
+            if(cursorPosOnY > cellPos && cursorPosOnY < (cellPos +  CELL_SIZE)){
+                return y;
+            }
         }
-        else if ((cursorX + mCar.getWidth()) > (GRID_OFFSET_X + (CELL_SIZE * GRID_WIDTH))){
-            return false;
+        // if not found
+        return 0;
+    }
+
+    private boolean doesNotExceedBorder(int currentCellOnX, int currentCellOnY, Car vehicle){
+        if(vehicle.mHorizontal){
+            return currentCellOnX >= 0 && currentCellOnX <= vehicle.getLength();
+        }else{
+            return currentCellOnY >= 0 && currentCellOnY <= vehicle.getLength();
         }
 
-        return true;
+
     }
 
     @Override
@@ -108,6 +135,10 @@ public class Play extends GameActivity {
         mGrid.draw(mSpriteBatch);
         for (Cell mCell : mCells){
             mCell.draw(mSpriteBatch);
+        }
+        // display all the trucks
+        for (Car mCar : mTrucks){
+            mCar.draw(mSpriteBatch);
         }
         mCar.draw(mSpriteBatch);
         mSpriteBatch.end();
