@@ -51,11 +51,41 @@ public class Car extends Sprite{
     }
 
     public void setPosX(int posX) {
+
+
+        // set the new position in pixels
         setX(Play.GRID_OFFSET_X + (posX * Play.CELL_SIZE));
+
+        // if we did a movement on this axe
+        // update the playground arrays
+        if(mHorizontal){
+            for(int x = 0 ; x < mLength ; x ++){
+                
+                if(x + this.mPosX <= Play.GRID_WIDTH){
+                    // remove precedent playground position
+                    Play.mPlayground[x + this.mPosX][mPosY] = false;
+                    // and set the new one
+                    Play.mPlayground[x + posX][mPosY] = true;
+                }
+            }
+        }
+
+        // assign class property
+        this.mPosX = posX;
+
+
     }
 
     public void setPosY(int posY) {
+        // remove precedent playground position
+
+
         setY(Play.GRID_OFFSET_Y + (posY * Play.CELL_SIZE));
+        this.mPosY = posY;
+
+        Play.mPlayground[this.mPosX][posY] = true;
+
+
     }
 
     public int getLength(){

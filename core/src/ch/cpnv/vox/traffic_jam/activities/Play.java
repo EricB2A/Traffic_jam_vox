@@ -49,6 +49,15 @@ public class Play extends GameActivity {
      */
     private Vector3 mCursor;
 
+    /**
+     * Visualisation of the GRID (max is GRID_WIDTH * GRID_HEIGHT)
+     * if a value is in a cell, the cell is occupied by a vehicle
+     * respectively X and Y values
+     */
+    public static boolean[][] mPlayground = new boolean[GRID_WIDTH][GRID_HEIGHT];
+
+
+
     public Play() {
         super();
         // define the emplacement of apparition of the playable car
@@ -58,6 +67,7 @@ public class Play extends GameActivity {
         mCar.setPosX(randomX);
         mCar.setPosY(randomY);
 
+
         // creates X trucks as obstacle
         for (int x : new int[]{1, 2, 3}){
             // set a new car with a random length (between 1 to 3)
@@ -66,9 +76,21 @@ public class Play extends GameActivity {
 
             //todo is there something here?
 
-            // randomly defines it's position
-            obstacle.setPosX((int) randomNumber(0, GRID_WIDTH));
-            obstacle.setPosY((int) randomNumber(0, GRID_HEIGHT));
+            // asset that the random emplacement doesn't exceed the grid size
+            do{
+                randomX = (int) randomNumber(0, GRID_WIDTH);
+                randomY = (int) randomNumber(0, GRID_HEIGHT);
+                System.out.println(randomX);
+                System.out.println(randomY);
+                System.out.println(doesNotExceedBorder(randomX, randomY, obstacle));
+            } while(! doesNotExceedBorder(randomX, randomY, obstacle));
+            System.out.println("PASSED");
+            System.out.println("WITH ");
+            System.out.println(randomX);
+            System.out.println(randomY);
+            System.out.println("===================");
+            obstacle.setPosX(randomX);
+            obstacle.setPosY(randomY);
 
             mTrucks.add(obstacle);
         }
@@ -101,7 +123,7 @@ public class Play extends GameActivity {
 
     private float getCellCursorIsInOnY(float cursorPosOnY){
         //todo could merge getCellPosOnX and getCellPosOnY
-        for(int y = 0; y < Play.GRID_HEIGHT ; y++){
+        for(int y = 0 ; y < Play.GRID_HEIGHT ; y++){
             float cellPos = GRID_OFFSET_Y + (CELL_SIZE * y);
             if(cursorPosOnY > cellPos && cursorPosOnY < (cellPos +  CELL_SIZE)){
                 return y;
