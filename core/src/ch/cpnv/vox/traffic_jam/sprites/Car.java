@@ -41,7 +41,7 @@ public class Car extends Sprite{
     }
 
     private void init(){
-        if (this.mHorizontal){
+        if(this.mHorizontal){
             setSize((Play.VEHICULE_SIZE * this.mLength) - Play.CELL_OFFSET, Play.VEHICULE_SIZE - Play.CELL_OFFSET);
         }else{
             setSize((Play.VEHICULE_SIZE - Play.CELL_OFFSET), (Play.VEHICULE_SIZE * this.mLength) - Play.CELL_OFFSET);
@@ -54,27 +54,24 @@ public class Car extends Sprite{
 
         // if we did a movement on this axe
         // update the playground arrays
-        if(mHorizontal){
-            for(int x = 0 ; x < mLength ; x ++){
-                if(x + posX < Play.GRID_WIDTH && x + mPosX < Play.GRID_WIDTH ){
+        if(this.mHorizontal){
+            for(int x = 0 ; x < this.mLength ; x ++){
+                if(x + posX < Play.GRID_WIDTH && x + this.mPosX < Play.GRID_WIDTH ){
                     // remove precedent playground position
-                    Play.mPlayground[x + mPosX][mPosY] = false;
+                    Play.mPlayground[x + this.mPosX][this.mPosY] = false;
                     // and set the new one
-                    Play.mPlayground[x + posX][mPosY] = true;
+                    Play.mPlayground[x + posX][this.mPosY] = true;
                 }
             }
         }
-//        else{
-//            for(int y = 0 ; y < mLength ; y++){
-//                Play.mPlayground[posX][y + mPosY] = true;
-//            }
-//        }
 
         // assign class property
         this.mPosX = posX;
     }
 
     public void setPosY(int posY) {
+        setY(Play.GRID_OFFSET_Y + (posY * Play.CELL_SIZE));
+
         // remove precedent playground position
         if(!mHorizontal){
             // does the same that for the x axis
@@ -87,18 +84,9 @@ public class Car extends Sprite{
                 }
             }
         }
-//        else{
-//            // if we are horizontal, we still need to assign the Y axis
-//            for(int x = 0 ; x < mLength ; x++){
-//                Play.mPlayground[x + mPosX][posY] = true;
-//                // and as there's no change on the Y, no need do de-assign the precedent values
-//            }
-//
-//        }
 
-        setY(Play.GRID_OFFSET_Y + (posY * Play.CELL_SIZE));
+
         this.mPosY = posY;
-        Play.mPlayground[this.mPosX][posY] = true;
     }
 
     public int getLength(){

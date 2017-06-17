@@ -74,8 +74,6 @@ public class Play extends GameActivity {
             // and random horizontal/vertical properties
             Car obstacle = new Car((int) randomNumber(2,4), (int) randomNumber(1,2) % 2 == 0);
 
-            //todo is there something here?
-
             // asset that the random emplacement doesn't exceed the grid size
             do{
                 randomX = (int) randomNumber(0, GRID_WIDTH);
@@ -91,10 +89,11 @@ public class Play extends GameActivity {
 
             mTrucks.add(obstacle);
         }
-        printGrid();
+        System.out.println("Obstacles added !");
+
     }
 
-    public void printGrid()
+    public static void printGrid()
     {
         for(int y = GRID_HEIGHT - 1 ; y >= 0 ; y --)
         {
@@ -121,16 +120,14 @@ public class Play extends GameActivity {
 
                 // movement 'jump' from cell to cell and is not following the cursor after each pixel
                 mCar.setPosX((int) getCellCursorIsInOnX(mCursor.x));
-                printGrid();
-
 
             }
         }
     }
 
     private boolean enoughSpace(int posX, int posY, Car vehicle){
-
         if(vehicle.isHorizontal()){
+            System.out.println("YES IM HORIZONTAL");
             for(int x = 0 ; x < vehicle.getLength() ; x++){
                 if(!mPlayground[posX + x][posY]){ return false; }
             }
@@ -167,9 +164,10 @@ public class Play extends GameActivity {
 
     private boolean doesNotExceedBorder(int currentCellOnX, int currentCellOnY, Car vehicle){
         if(vehicle.isHorizontal()){
-            return currentCellOnX >= 0 && currentCellOnX - 1 + vehicle.getLength() <= GRID_WIDTH;
+            // remember that grid index start at 0, so we need to -1
+            return currentCellOnX >= 0 && currentCellOnX - 1 + vehicle.getLength() <= GRID_WIDTH - 1;
         }else{
-            return currentCellOnY >= 0 && currentCellOnY - 1 + vehicle.getLength() <= GRID_HEIGHT;
+            return currentCellOnY >= 0 && currentCellOnY - 1 + vehicle.getLength() <= GRID_HEIGHT -1;
         }
 
 
@@ -182,6 +180,7 @@ public class Play extends GameActivity {
 
     @Override
     public void render() {
+        printGrid();
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // clear the layout
 
         // display all the needed elements
