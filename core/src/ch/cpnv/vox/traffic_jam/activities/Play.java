@@ -64,9 +64,7 @@ public class Play extends GameActivity {
         // which is randomly placed on the grid
         int randomX = (int) randomNumber(0, GRID_WIDTH);
         int randomY = (int) randomNumber(0, GRID_HEIGHT);
-        mCar.setPosX(randomX);
-        mCar.setPosY(randomY);
-
+        mCar.setPos(randomX, randomY);
 
         // creates X trucks as obstacle
         for (int x : new int[]{1, 2, 3}){
@@ -76,16 +74,15 @@ public class Play extends GameActivity {
 
             // asset that the random emplacement doesn't exceed the grid size
             do{
-                randomX = (int) randomNumber(0, GRID_WIDTH);
-                randomY = (int) randomNumber(0, GRID_HEIGHT);
+                randomX = (int) randomNumber(0, GRID_WIDTH - 1);
+                randomY = (int) randomNumber(0, GRID_HEIGHT - 1);
 
                 boolean inRange = doesNotExceedBorder(randomX, randomY, obstacle);
                 boolean enoughSpace = enoughSpace(randomX, randomY, obstacle);
 
             } while((!doesNotExceedBorder(randomX, randomY, obstacle)));
 
-            obstacle.setPosX(randomX);
-            obstacle.setPosY(randomY);
+            obstacle.setPos(randomX, randomY);
 
             mTrucks.add(obstacle);
         }
@@ -119,7 +116,7 @@ public class Play extends GameActivity {
             if(doesNotExceedBorder((int) getCellCursorIsInOnX(mCursor.x),(int) getCellCursorIsInOnY(mCursor.y), mCar)){
 
                 // movement 'jump' from cell to cell and is not following the cursor after each pixel
-                mCar.setPosX((int) getCellCursorIsInOnX(mCursor.x));
+                mCar.setPos((int) getCellCursorIsInOnX(mCursor.x), mCar.mPosY);
 
             }
         }

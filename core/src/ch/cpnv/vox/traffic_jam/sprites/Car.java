@@ -13,8 +13,8 @@ import ch.cpnv.vox.traffic_jam.activities.Play;
 public class Car extends Sprite{
 
     // grid coordinates, not pixels
-    private int mPosX;
-    private int mPosY;
+    public int mPosX;
+    public int mPosY;
     private int mLength;
 
     // is it the main car aka the red car
@@ -48,9 +48,10 @@ public class Car extends Sprite{
         }
     }
 
-    public void setPosX(int posX) {
+    public void setPos(int posX, int posY){
         // set the new position in pixels
         setX(Play.GRID_OFFSET_X + (posX * Play.CELL_SIZE));
+        setY(Play.GRID_OFFSET_Y + (posY * Play.CELL_SIZE));
 
         // if we did a movement on this axe
         // update the playground arrays
@@ -58,36 +59,24 @@ public class Car extends Sprite{
             for(int x = 0 ; x < this.mLength ; x ++){
                 if(x + posX < Play.GRID_WIDTH && x + this.mPosX < Play.GRID_WIDTH ){
                     // remove precedent playground position
-                    Play.mPlayground[x + this.mPosX][this.mPosY] = false;
+                    Play.mPlayground[x + this.mPosX][posY] = false;
                     // and set the new one
-                    Play.mPlayground[x + posX][this.mPosY] = true;
+                    Play.mPlayground[x + posX][posY] = true;
                 }
             }
-        }
-
-        // assign class property
-        this.mPosX = posX;
-    }
-
-    public void setPosY(int posY) {
-        setY(Play.GRID_OFFSET_Y + (posY * Play.CELL_SIZE));
-
-        // remove precedent playground position
-        if(!mHorizontal){
-            // does the same that for the x axis
+        }else{ // same thing if the vehicle is vertical
             for(int y = 0 ; y < mLength ; y++){
                 if(y+posY < Play.GRID_HEIGHT){
-                    // remove the old emplacement
-                    Play.mPlayground[mPosX][y + mPosY] = false;
-                    // and add the news occupied cells
-                    Play.mPlayground[mPosX][y + posY] = true;
+                    Play.mPlayground[posX][y + mPosY] = false;
+                    Play.mPlayground[posX][y + posY] = true;
                 }
             }
         }
-
-
+        // and finally assign class property
+        this.mPosX = posX;
         this.mPosY = posY;
     }
+
 
     public int getLength(){
         return this.mLength;
