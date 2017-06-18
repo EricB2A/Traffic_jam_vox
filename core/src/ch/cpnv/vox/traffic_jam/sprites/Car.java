@@ -23,7 +23,7 @@ public class Car extends Sprite{
     // is it displayed horizontally or vertically
     private boolean mHorizontal = true;
 
-    public Car(int length, boolean horizontal ,boolean player){
+    public Car(int length, boolean horizontal, boolean player){
         super(new Texture("red.jpg"));
         this.mLength = length;
         this.mHorizontal = horizontal;
@@ -49,6 +49,7 @@ public class Car extends Sprite{
     }
 
     public void setPos(int posX, int posY){
+
         // set the new position in pixels
         setX(Play.GRID_OFFSET_X + (posX * Play.CELL_SIZE));
         setY(Play.GRID_OFFSET_Y + (posY * Play.CELL_SIZE));
@@ -59,19 +60,21 @@ public class Car extends Sprite{
             for(int x = 0 ; x < this.mLength ; x ++){
                 if(x + posX < Play.GRID_WIDTH && x + this.mPosX < Play.GRID_WIDTH ){
                     // remove precedent playground position
-                    Play.mPlayground[x + this.mPosX][posY] = false;
+
                     // and set the new one
                     Play.mPlayground[x + posX][posY] = true;
                 }
             }
         }else{ // same thing if the vehicle is vertical
-            for(int y = 0 ; y < mLength ; y++){
-                if(y+posY < Play.GRID_HEIGHT){
-                    Play.mPlayground[posX][y + mPosY] = false;
+            for(int y = 0 ; y < this.mLength ; y ++){
+                if(y + posY < Play.GRID_HEIGHT){
+                    //Play.mPlayground[posX][y + this.mPosY] = false;
                     Play.mPlayground[posX][y + posY] = true;
                 }
             }
+
         }
+
         // and finally assign class property
         this.mPosX = posX;
         this.mPosY = posY;

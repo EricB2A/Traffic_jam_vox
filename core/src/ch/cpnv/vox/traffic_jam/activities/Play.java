@@ -56,8 +56,6 @@ public class Play extends GameActivity {
      */
     public static boolean[][] mPlayground = new boolean[GRID_WIDTH][GRID_HEIGHT];
 
-
-
     public Play() {
         super();
         // define the emplacement of apparition of the playable car
@@ -67,27 +65,24 @@ public class Play extends GameActivity {
         mCar.setPos(randomX, randomY);
 
         // creates X trucks as obstacle
-        for (int x : new int[]{1, 2, 3}){
+        for (int x : new int[]{1}){
             // set a new car with a random length (between 1 to 3)
             // and random horizontal/vertical properties
-            Car obstacle = new Car((int) randomNumber(2,4), (int) randomNumber(1,2) % 2 == 0);
+
+            Car obstacle = new Car((int) randomNumber(2,4), randomBoolean());
 
             // asset that the random emplacement doesn't exceed the grid size
             do{
                 randomX = (int) randomNumber(0, GRID_WIDTH - 1);
                 randomY = (int) randomNumber(0, GRID_HEIGHT - 1);
-
-                boolean inRange = doesNotExceedBorder(randomX, randomY, obstacle);
-                boolean enoughSpace = enoughSpace(randomX, randomY, obstacle);
-
-            } while((!doesNotExceedBorder(randomX, randomY, obstacle)));
+            } while((!doesNotExceedBorder(randomX, randomY, obstacle)) && enoughSpace(randomX, randomY, obstacle));
 
             obstacle.setPos(randomX, randomY);
 
             mTrucks.add(obstacle);
         }
-        System.out.println("Obstacles added !");
-
+        System.out.println("vehicles added");
+        printGrid();
     }
 
     public static void printGrid()
@@ -114,29 +109,30 @@ public class Play extends GameActivity {
         if(mCar.isHorizontal()){
             // assert that the moving car won't go out of the playing grid
             if(doesNotExceedBorder((int) getCellCursorIsInOnX(mCursor.x),(int) getCellCursorIsInOnY(mCursor.y), mCar)){
-
-                // movement 'jump' from cell to cell and is not following the cursor after each pixel
-                mCar.setPos((int) getCellCursorIsInOnX(mCursor.x), mCar.mPosY);
+                /*if(enoughSpace((int) getCellCursorIsInOnX(mCursor.x),(int) getCellCursorIsInOnY(mCursor.y), mCar)){
+                    // movement 'jump' from cell to cell and is not following the cursor after each pixel
+                    mCar.setPos((int) getCellCursorIsInOnX(mCursor.x), mCar.mPosY);
+                }*/
 
             }
         }
     }
 
     private boolean enoughSpace(int posX, int posY, Car vehicle){
+        System.out.println("===");
+
         if(vehicle.isHorizontal()){
-            System.out.println("YES IM HORIZONTAL");
-            for(int x = 0 ; x < vehicle.getLength() ; x++){
-                if(!mPlayground[posX + x][posY]){ return false; }
-            }
-        }else{
-            for(int y = 0 ; y < vehicle.getLength() ; y++){
-                if(!mPlayground[posX][posY + y ]){ return false; }
+            for(int x = 0 ; x < vehicle.getLength() ; x ++){
+                //System.out.println(x + posX);
+                //System.out.println(mPlayground[x+posX][posY]);
             }
         }
+
         return true;
     }
 
     private float getCellCursorIsInOnX(float cursorPosOnX){
+        //todo float => int
         for(int x = 0 ; x < Play.GRID_WIDTH ; x++){
             float cellPos = GRID_OFFSET_X + (CELL_SIZE * x);
             if(cursorPosOnX > cellPos && cursorPosOnX < (cellPos +  CELL_SIZE)){
@@ -177,7 +173,7 @@ public class Play extends GameActivity {
 
     @Override
     public void render() {
-        printGrid();
+        //printGrid();
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // clear the layout
 
         // display all the needed elements
@@ -203,5 +199,9 @@ public class Play extends GameActivity {
     private double randomNumber(int min, int max){
         Random ran = new Random();
         return min + (ran.nextDouble() * (max - min));
+    }
+
+    private boolean randomBoolean(){
+        return Math.random() < 0.5;
     }
 }
